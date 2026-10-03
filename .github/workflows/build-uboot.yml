@@ -1,0 +1,54 @@
+name: Build U-Boot
+
+on:
+  # 手动触发
+  workflow_dispatch:
+  # 每周日 03:00 UTC 跑一次
+  schedule:
+    - cron: '0 3 * * 0'
+
+jobs:
+  build-vexpress:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            gcc-arm-linux-gnueabihf \
+            bison flex \
+            libssl-dev \
+            bc \
+            device-tree-compiler \
+            u-boot-tools
+
+      - name: Show toolchain
+        run: arm-linux-gnueabihf-gcc --version
+
+      - name: Build U-Boot (vexpress_ca9x4)
+        env:
+          WORK_DIR: ${{ github.workspace }}/uboot-mainline
+          CROSS_COMPILE: arm-linux-gnueabihf-
+        run: |
+          chmod +x scripts/build-uboot-vexpress.sh
+          ./scripts/build-uboot-vexpress.sh
+
+      - name: Verify outputs
+        run: |
+          ls -lh uboot-mainline/u-boot uboot-mainline/u-boot.bin
+          file uboot-mainline/u-boot.bin
+          # 关键符号检查
+          arm-linux-gnueabihf-readelf -h uboot-mainline/u-boot | head -20
+
+      - name: Upload u-boot.bin
+        uses: actions/upload-artifact@v4
+        with:
+          name: u-boot-vexpress-a9
+          path: |
+            uboot-mainline/u-boot.bin
+            uboot-mainline/u-boot
+          retention-days: 30
