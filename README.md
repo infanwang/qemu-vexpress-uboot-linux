@@ -1,5 +1,9 @@
 # QEMU vexpress-a9 + U-Boot + Linux 完整构建归档
 
+[![CI](https://github.com/infanwang/qemu-vexpress-uboot-linux/actions/workflows/ci.yml/badge.svg)](https://github.com/infanwang/qemu-vexpress-uboot-linux/actions/workflows/ci.yml)
+[![Build U-Boot](https://github.com/infanwang/qemu-vexpress-uboot-linux/actions/workflows/build-uboot.yml/badge.svg)](https://github.com/infanwang/qemu-vexpress-uboot-linux/actions/workflows/build-uboot.yml)
+[![Release](https://img.shields.io/github/v/release/infanwang/qemu-vexpress-uboot-linux)](https://github.com/infanwang/qemu-vexpress-uboot-linux/releases)
+
 > 在 Ubuntu 26.04 + GCC 14 上，从零构建可复现的嵌入式 Linux 引导链：
 > **U-Boot 2026.10** → **TFTP 网络引导** → **Linux 6.12.27** → **ext4 rootfs** → **BusyBox shell**
 
