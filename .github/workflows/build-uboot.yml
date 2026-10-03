@@ -22,6 +22,7 @@ jobs:
             gcc-arm-linux-gnueabihf \
             bison flex \
             libssl-dev \
+            libgnutls28-dev \
             bc \
             device-tree-compiler \
             u-boot-tools
